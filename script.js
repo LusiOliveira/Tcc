@@ -30,3 +30,55 @@
         // Marcador 3: Zona Leste
         L.marker([-3.0700, -59.9500], {icon: ecoIcon}).addTo(map)
             .bindPopup('<b>Galpão de Logística Reversa</b><br>Descarte de grandes eletrodomésticos.');
+
+            // --- Lógica do Chatbot ---
+const chatbotToggle = document.getElementById('chatbot-toggle');
+const chatbotWindow = document.getElementById('chatbot-window');
+const chatbotClose = document.getElementById('chatbot-close');
+const chatbotSend = document.getElementById('chatbot-send');
+const chatbotInputField = document.getElementById('chatbot-input-field');
+const chatbotMessages = document.getElementById('chatbot-messages');
+
+// Abrir e fechar a janela do chat
+chatbotToggle.addEventListener('click', () => {
+    chatbotWindow.classList.toggle('hidden');
+});
+
+chatbotClose.addEventListener('click', () => {
+    chatbotWindow.classList.add('hidden');
+});
+
+// Função para enviar mensagem
+function sendMessage() {
+    const text = chatbotInputField.value.trim();
+    if (text !== '') {
+        // Cria o balão de mensagem do usuário
+        const userMsg = document.createElement('div');
+        userMsg.className = 'message user';
+        userMsg.textContent = text;
+        chatbotMessages.appendChild(userMsg);
+        
+        // Limpa a caixa de texto e rola para baixo
+        chatbotInputField.value = '';
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+
+        // Simula a IA "pensando" e respondendo após 1 segundo
+        setTimeout(() => {
+            const botMsg = document.createElement('div');
+            botMsg.className = 'message bot';
+            botMsg.textContent = 'Esta é uma versão de demonstração! No projeto final, eu poderei tirar dúvidas reais sobre reciclagem e pontos de coleta para você.';
+            chatbotMessages.appendChild(botMsg);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }, 1000);
+    }
+}
+
+// Enviar ao clicar no botão
+chatbotSend.addEventListener('click', sendMessage);
+
+// Enviar ao apertar "Enter" no teclado
+chatbotInputField.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        sendMessage();
+    }
+});
